@@ -1,6 +1,12 @@
+$("#loading").hide();
 function submit() {
     var id =  document.getElementById('input').value;
+    $("#loading").show();
+    $("#data").hide();
+    $("#photo").hide();
     $.getJSON("https://graph.facebook.com/" + id  + "?%20fields=id,name,picture,username,gender", function(json){
+        $("#loading").hide();
+        $("#data").show();
         document.getElementById('data').innerHTML = 
             "Name: " + json.name + "<br>" +
             "Gender: " + json.gender + "<br>" +
@@ -19,5 +25,12 @@ function submit() {
             img.src = imageUrl;
         };
         xhr.send();
+        $('#photo').show();
+    })
+    .fail(function(){
+        $('#photo').hide();
+        $("#loading").hide();
+        $("#data").show();
+        document.getElementById('data').innerHTML = "Nothing Found!";
     });
 }
